@@ -119,4 +119,46 @@ ref type : ref type在声明时， 只在 Stack 中分配一小片内存用于�
 value type 只需分配一次即可，适用于主要职责是数据存储、共有借口完全由一些数据成员存取属性定义、永远不可能有子类、不具有多态行为的类型。而 ref type 消耗更多的时间，造成更多的内存碎片，适用于定义应用程序的行为。
 简而言之：value type 更多是临时使用，快速创建与销毁，ref type 代表程序语义，可能会跟随程序生命周期。
 
-## 
+## C++ 中的 unboxing 和 boxing
+C++ 中并不存在自动的装箱，但是也存在需要用 object 作为参数而实际却是使用 int 类型的情况，一般操作方式如下：
+```
+// The box type
+class IntBox
+{
+	// The boxed value
+	private int val;
+ 
+	// Create the box with a boxed value
+	public IntBox(int val)
+	{
+		this.val = val;
+	}
+ 
+	// Unbox by getting the boxed value back out
+	int Unbox()
+	{
+		return val;
+	}
+}
+
+// Create a value to box
+int val = 123;
+ 
+// Box the value
+// Store it as just an 'object'
+object boxed = new IntBox(val);
+ 
+// Unbox the value
+int unboxed = ((IntBox)boxed).Unbox();
+```
+而 C# 中的自动装箱其实是为了减少上述代码手写的语法糖而已。
+
+## JS 有 Value type 吗？
+有，而且存储位置分为栈和堆，基本与 C# 保持一致
+1. 值类型(基本类型)：数值(number)、布尔值(boolean)、null、undefined、string(在赋值传递中会以引用类型的方式来处理)、Symbol
+
+2. 引用类型：对象、数组、函数。
+
+
+> JavaScript 为基本类型提供了对象包装器，被称为原生类型（String、Number、Boolean 等等）。这些对象包装器使这些值可以访问每种对象子类型的恰当行为（String#trim() 和 Array#concat(..)）。
+如果你有一个像 "abc" 这样的简单基本类型标量，而且你想要访问它的 length 属性或某些 String.prototype 方法，JS 会自动地“封箱”这个值（用它所对应种类的对象包装器把它包起来），以满足这样的属性/方法访问。
