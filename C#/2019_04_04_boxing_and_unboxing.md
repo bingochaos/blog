@@ -1,6 +1,8 @@
 # C# 中的装箱（boxing）以及拆箱（unboxing）
 ## 装箱
 装箱：装箱其实是一个值类型的数据转换成一个 object 类型或者任意引用该值类型的 interface type。 CLR 在对值类型进行装箱的过程中，其实就是将他包装成一个 Object 类型的变量，并存储在托管堆（managed heap）中。
+
+
 ``` C#
 int i = 1;
 // 这里将 i 进行了装箱操作
@@ -23,6 +25,8 @@ i = (int)o; // unboxing
 
 ![拆箱操作](images/2019_04_04_boxing_and_unboxing/unboxing-conversion-operation.png "unboxing-conversion-operation.png")
 
+> wrapping 和 unwrapping ： 将 T 的实例转换成 Nullable<T> 的实例的过程在 C# 语言规范中称为包装（wrapping)，相反的过程则为拆包。但是 Nullable<T> 是一个值类型！它和装箱拆箱不是一回事。如果要将 Nullable<T> 转换成引用类型，还需要经过装箱。
+	
 ## 装箱在 C# 中的应用
 ```
 // String.Concat example
