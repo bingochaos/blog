@@ -10,7 +10,7 @@ Diff 是计算机中很常见的操作，比如 git 中的版本比较也拥有�
 ### Diff Tree
 如果要比较两棵树有哪些不一样，情况就会比较多，如果树结构相似，如下图，那么看起来好像很简单，找到差异的节点 D 和 G 就可以了。修改也只需要修改这一个节点就可以了。
 
-![](./images/TreeDiff2.Jpg "TreeDiff2.Jpg")
+![](./images/2019_04_24_react_diff/TreeDiff2.Jpg "TreeDiff2.Jpg")
 
 如果是树的结构的改动，比如下面这个，看起来操作很简单，只需要把子树 A 移动到 D 下即可。但是怎么比较出来下面的差异呢？
 1. 首先，如果当它是个二叉树，R 的左子树不一致，差异是缺少了 A 子树
@@ -18,7 +18,7 @@ Diff 是计算机中很常见的操作，比如 git 中的版本比较也拥有�
 3. 比较两个 A 子树寻找差异
 基本上比较了所有节点，而且这是从我们知道哪里有变动去分析的。
 
-![](./images/TreeDiff1.Jpg "TreeDiff1.Jpg")
+![](./images/2019_04_24_react_diff/TreeDiff1.Jpg "TreeDiff1.Jpg")
 
 所以比较两个 n 节点的树的差异基本需要比较所有节点的差异，即 O(n^2) 的复杂度。然后还需要计算从一个树变化到另一个树需要的编辑距离。这所有操作的复杂度基本超过 O(n^3)。
 如果直接用这种简单粗暴的方式去操作 VDOM 的 Diff 的话，那 100 个节点就有可能面临 1000000 的操作次数，明显是不合理的。
@@ -34,7 +34,7 @@ Diff 是计算机中很常见的操作，比如 git 中的版本比较也拥有�
 三步操作完成字符串变化，因此其编辑距离为3
 
 动态规划方程：
-![动态规范方程](./images/LevenshteinAlgorithm.Jpg)
+![动态规范方程](./images/2019_04_24_react_diff/LevenshteinAlgorithm.Jpg)
 
 参考： [Edit_distance](https://en.wikipedia.org/wiki/Edit_distance)
 
@@ -43,16 +43,16 @@ Diff 是计算机中很常见的操作，比如 git 中的版本比较也拥有�
 
 最简单的操作大致如下：
 
-![树最短距离](./images/TreeEditDistance.Jpg)
+![树最短距离](./images/2019_04_24_react_diff/TreeEditDistance.Jpg)
 
 但是大部分情况下，树的比较不会这么简单，可以看下历史上 Tree Edit Distance 算法的演进。用了30年的时间才提升到了O(n^3)。
 
-![树最短编辑距离算法历史](./images/TreeEditDistanceHistory.Jpg)
+![树最短编辑距离算法历史](./images/2019_04_24_react_diff/TreeEditDistanceHistory.Jpg)
 
 O(n^3) 的算法大致如下:
 
-![树最短编辑距离算法](./images/AlgorithmCode.Jpg)
-![树最短编辑距离算法](./images/AlgorithmProcess.Jpg)
+![树最短编辑距离算法](./images/2019_04_24_react_diff/AlgorithmCode.Jpg)
+![树最短编辑距离算法](./images/2019_04_24_react_diff/AlgorithmProcess.Jpg)
 
 参考资料：[算法论文](http://vldb.org/pvldb/vol5/p334_mateuszpawlik_vldb2012.pdf)
 
@@ -68,12 +68,12 @@ Diff 算法分为三个维度进行：
 2. Component Diff
 3. Element Diff
 
-![ReactDiff](./images/ReactDiff.Jpg)
+![ReactDiff](./images/2019_04_24_react_diff/ReactDiff.Jpg)
 
 ### Tree Diff
 基于假设一，React 在进行比较的时候，只对两棵树的同一层级进行比较。React 通过 updateDepth 对 Virtual DOM 树进行层级控制，只会对相同颜色方框内的 DOM 节点进行比较，即同一个父节点下的所有子节点。当发现节点已经不存在，则该节点及其子节点会被完全删除掉，不会用于进一步的比较。这样只需要对树进行一次遍历，便能完成整个 DOM 树的比较。
 
-![ReactDiff](./images/ReactTreeDiff.Jpg)
+![ReactDiff](./images/2019_04_24_react_diff/ReactTreeDiff.Jpg)
 
 ```
 updateChildren: function(nextNestedChildrenElements, transaction, context) {
@@ -96,7 +96,7 @@ updateChildren: function(nextNestedChildrenElements, transaction, context) {
 ```
 既然 React 的 Diff 只会对同层级的对比，那么如果出现子树的层级移动，React 又会怎么操作呢？回到下面这张图：
 
-![](./images/TreeDiff1.Jpg "TreeDiff1.Jpg")
+![](./images/2019_04_24_react_diff/TreeDiff1.Jpg "TreeDiff1.Jpg")
 
 这里前后两个 A 子树明显不在同一层级。那这个 A 子树还能从 RL 移到 DL 吗？答案明显是不能的，如果要这么做，Diff 算法至少得先知道 两个 A 子树是一模一样的，只是移动了位置，都这么比较就是 O(n^3) 的策略了。
 
@@ -115,7 +115,7 @@ React 的实际做法：
 
 再回来看这张图，D 和 G 是两个不同的 Component，虽然他们的子树结构完全一样，但是对于 React 来说他们还是不同的 Class，在操作的时候也会对 D 进行直接删除，然后添加 G。
 
-![](./images/TreeDiff2.Jpg "TreeDiff2.Jpg")
+![](./images/2019_04_24_react_diff/TreeDiff2.Jpg "TreeDiff2.Jpg")
 
 ### Element Diff
 当节点处于同一层级时，React diff 提供了三种节点操作，分别为：INSERT_MARKUP（插入）、MOVE_EXISTING（移动）和 REMOVE_NODE（删除）。
@@ -161,7 +161,7 @@ function enqueueRemove(parentInst, fromIndex) {
 ```
 如下图，老集合中包含节点：A、B、C、D，更新后的新集合中包含节点：B、A、D、C，此时新老集合进行 diff 差异化对比，发现 B != A，则创建并插入 B 至新集合，删除老集合 A；以此类推，创建并插入 A、D 和 C，删除 B、C 和 D。
 
-![](./images/Element1.Jpg "Element1.Jpg")
+![](./images/2019_04_24_react_diff/Element1.Jpg "Element1.Jpg")
 
 
 React 发现这类操作繁琐冗余，因为这些都是相同的节点，但由于位置发生变化，导致需要进行繁杂低效的删除、创建操作，其实只要对这些节点进行位置移动即可。
@@ -170,7 +170,7 @@ React 发现这类操作繁琐冗余，因为这些都是相同的节点，但�
 
 新老集合所包含的节点，如下图所示，新老集合进行 diff 差异化对比，通过 key 发现新老集合中的节点都是相同的节点，因此无需进行节点删除和创建，只需要将老集合中节点的位置进行移动，更新为新集合中节点的位置，此时 React 给出的 diff 结果为：B、D 不做任何操作，A、C 进行移动操作，即可。
 
-![](./images/Element2.Jpg "Element2.Jpg")
+![](./images/2019_04_24_react_diff/Element2.Jpg "Element2.Jpg")
 
 那么，如此高效的 diff 到底是如何运作的呢？让我们通过源码进行详细分析。
 
@@ -191,7 +191,7 @@ React 发现这类操作繁琐冗余，因为这些都是相同的节点，但�
 * 从新集合中取得 A，判断老集合中存在相同节点 A，由于 A 在老集合中的位置A._mountIndex = 0，lastIndex = 2，此时 A._mountIndex < lastIndex，因此对 A 进行移动操作；更新 lastIndex ＝ 2，并将 A 的位置更新为新集合中的位置，nextIndex++ 进入下一个节点的判断。
 * 当完成新集合中所有节点 diff 时，最后还需要对老集合进行循环遍历，判断是否存在新集合中没有但老集合中仍存在的节点，发现存在这样的节点 D，因此删除节点 D，到此 diff 全部完成。
 
-![](./images/Element3.Jpg "Element3.Jpg")
+![](./images/2019_04_24_react_diff/Element3.Jpg "Element3.Jpg")
 
 ```
 _updateChildren: function(nextNestedChildrenElements, transaction, context) {
@@ -283,7 +283,7 @@ _mountChildAtIndex: function(
 
 建议：在开发过程中，尽量减少类似将最后一个节点移动到列表首部的操作，当节点数量过大或更新操作过于频繁时，在一定程度上会影响 React 的渲染性能。
 
-![](./images/Element4.Jpg "Element4.Jpg")
+![](./images/2019_04_24_react_diff/Element4.Jpg "Element4.Jpg")
 
 ### 总结
 
