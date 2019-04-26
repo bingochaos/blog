@@ -34,7 +34,7 @@ Diff 是计算机中很常见的操作，比如 git 中的版本比较也拥有�
 三步操作完成字符串变化，因此其编辑距离为3
 
 动态规划方程：
-![动态规范方程](./images/2019_04_24_react_diff/LevenshteinAlgorithm.Jpg)
+![动态规范方程](./images/2019_04_24_react_diff/LevenshteinAlgorithm.jpg)
 
 参考： [Edit_distance](https://en.wikipedia.org/wiki/Edit_distance)
 
@@ -43,16 +43,16 @@ Diff 是计算机中很常见的操作，比如 git 中的版本比较也拥有�
 
 最简单的操作大致如下：
 
-![树最短距离](./images/2019_04_24_react_diff/TreeEditDistance.Jpg)
+![树最短距离](./images/2019_04_24_react_diff/TreeEditDistance.jpg)
 
 但是大部分情况下，树的比较不会这么简单，可以看下历史上 Tree Edit Distance 算法的演进。用了30年的时间才提升到了O(n^3)。
 
-![树最短编辑距离算法历史](./images/2019_04_24_react_diff/TreeEditDistanceHistory.Jpg) 
+![树最短编辑距离算法历史](./images/2019_04_24_react_diff/TreeEditDistanceHistory.jpg) 
 
 O(n^3) 的算法大致如下:
 
-![树最短编辑距离算法](./images/2019_04_24_react_diff/AlgorithmCode.Jpg)
-![树最短编辑距离算法](./images/2019_04_24_react_diff/AlgorithmProcess.Jpg)
+![树最短编辑距离算法](./images/2019_04_24_react_diff/AlgorithmCode.jpg)
+![树最短编辑距离算法](./images/2019_04_24_react_diff/AlgorithmProcess.jpg)
 
 参考资料：[算法论文](http://vldb.org/pvldb/vol5/p334_mateuszpawlik_vldb2012.pdf)
 
