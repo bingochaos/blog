@@ -47,7 +47,7 @@ Diff 是计算机中很常见的操作，比如 git 中的版本比较也拥有�
 
 但是大部分情况下，树的比较不会这么简单，可以看下历史上 Tree Edit Distance 算法的演进。用了30年的时间才提升到了O(n^3)。
 
-![树最短编辑距离算法历史](./images/2019_04_24_react_diff/TreeEditDistanceHistory.Jpg)
+![树最短编辑距离算法历史](./images/2019_04_24_react_diff/TreeEditDistanceHistory.Jpg) 
 
 O(n^3) 的算法大致如下:
 
