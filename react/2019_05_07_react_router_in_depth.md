@@ -388,7 +388,7 @@ function createLocation() {
 
 以下为 Api 的大致执行流程。
 
-![React Router Api 流程](./images/2019_05_07_react_router_in_depth/react-route-in-depth.Jpg)
+![React Router Api 流程](./images/2019_05_07_react_router_in_depth/react-route-in-depth.png)
 
 ## 总结
 1. react router 实现原理不外乎使用 hash history memory 三种方法
